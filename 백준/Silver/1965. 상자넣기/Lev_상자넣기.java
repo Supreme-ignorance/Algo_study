@@ -20,8 +20,6 @@ public class Main {
         int defaultValue = 1; //기본 값
         boxCounts[0] = defaultValue; //0번째는 1개가 기본값이다.
 
-        int result = 0;
-
         for (int i = 1; i < N; i++) {
             int max = 0;
             for (int j = 0; j < i; j++) {
@@ -30,7 +28,11 @@ public class Main {
                 }
             }
             boxCounts[i] = max + 1; //해당하는 상자까지 포함해야하기 때문에 + 1을 해서 boxCount를 초기화해준다.
-            result = Math.max(result, boxCounts[i]); //한 번에 계산하기 위해서 result를 초기화 해준다.
+        }
+        
+        int result = 1;
+        for (int i = 1; i < N; i++) {
+            result = Math.max(result, boxCounts[i]);
         }
 
         System.out.println(result);
