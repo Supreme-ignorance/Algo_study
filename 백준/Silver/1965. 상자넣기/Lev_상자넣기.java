@@ -29,8 +29,8 @@ public class Main {
                     max = Math.max(max, boxCounts[j]); //최대값 초기화
                 }
             }
-            boxCounts[i] = max + 1;
-            result = Math.max(result, boxCounts[i]);
+            boxCounts[i] = max + 1; //해당하는 상자까지 포함해야하기 때문에 + 1을 해서 boxCount를 초기화해준다.
+            result = Math.max(result, boxCounts[i]); //한 번에 계산하기 위해서 result를 초기화 해준다.
         }
 
         System.out.println(result);
