@@ -32,40 +32,46 @@ class Solution {
                 break;
             }
             
-            if (minCount[0] > 0) {
+            if (minCount[0] != 0) {
+                sb.append("d");
                 minCount[0]--;
             }
             else {//minCount[0] == 0
+                if (overCount != 0) {
+                    sb.append("d");
                     overCount--;
                     minCount[3]++;
+                }
             }
-            sb.append("d");
             x++;
         }
         while (y > 1) {
             if (minCount[1] == 0 && overCount == 0) {
                 break;
             }
-    
-            if (minCount[1] > 0) {
+            
+            if (minCount[1] != 0) {
+                sb.append("l");
                 minCount[1]--;
             }
             else {//minCount[1] == 0
+                if (overCount != 0) {
+                    sb.append("l");
                     overCount--;
                     minCount[2]++;
+                }
             }
-            sb.append("l");
             y--;
         }
         while (overCount != 0) {
             sb.append("rl");
             overCount--;
         }
-        while (minCount[2] > 0) {
+        while (minCount[2] != 0) {
             sb.append("r");
             minCount[2]--;
         }
-        while (minCount[3] > 0) {
+        while (minCount[3] != 0) {
             sb.append("u");
             minCount[3]--;
         }
@@ -83,7 +89,7 @@ class Solution {
             minCount[3] = rowLength;
         }
         
-        if (c > y) {
+        if (c > x) {
             minCount[2] = colLength;
         }
         else {
