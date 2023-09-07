@@ -27,6 +27,7 @@ class Solution {
         
         if (current.equals(target)) {
             result = count;
+            return;
         }
         
         for (int i = 0; i < arr.length; i++) {
