@@ -19,12 +19,8 @@ class Solution {
             }
             else {
                 int lastIndex = binary.lastIndexOf("0");
-                if (lastIndex == binary.length() - 1) {
-                    binary = binary.substring(0, lastIndex) + "1";
-                }
-                else {
-                    binary = binary.substring(0, lastIndex) + "10" + binary.substring(lastIndex + 2); 
-                }
+                binary = binary.substring(0, lastIndex) + "10" + binary.substring(lastIndex + 2); 
+        
             }
             answer[i] = binaryToLong(binary);
         }
