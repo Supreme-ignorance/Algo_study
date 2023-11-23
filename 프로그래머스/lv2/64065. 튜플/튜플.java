@@ -1,56 +1,68 @@
 import java.util.*;
 
 class Solution {
-    
-    List<Integer>[] numbers;
-    
     public int[] solution(String s) {
         
-        String target = s.substring(1, s.length() - 1);
-        String[] tuples = target.split("},");
-        // System.out.println(Arrays.toString(tuples));
+        s = s.substring(1, s.length() - 1);
+        // System.out.println(s);
+        Deque<Character> stack = new ArrayDeque<>();
         
-        numbers = new List[tuples.length];
-        for (int i = 0; i < numbers.length; i++) {
-            numbers[i] = new ArrayList<>();
-        }
+        //글자 조합 저장소
+        StringBuilder sb = new StringBuilder();
         
-        for (int i = 0; i < tuples.length; i++) {
-            if (i == tuples.length - 1) {
-                String number = tuples[i].substring(1, tuples[i].length() - 1);
-                splitNumber(i, number);
+        //String -> List<List<>> 저장소
+        List<List<Integer>> records = new ArrayList<>();
+        //각 List 담을 저장소
+        List<Integer> record = new ArrayList<>();
+        
+        for (int i = 0; i < s.length(); i++) {
+            if (s.charAt(i) == '{') {
+                record = new ArrayList<>();
+                stack.push('{');
                 continue;
             }
-            String number = tuples[i].substring(1, tuples[i].length());
-            splitNumber(i, number);
-        }
-        
-        Arrays.sort(numbers, new Comparator<List<Integer>>() {
-            public int compare(List nums1, List nums2) {
-                return nums1.size() - nums2.size();
+            if (s.charAt(i) == '}') {
+                // System.out.println("} 전 : " + sb.toString());
+                record.add(Integer.parseInt(sb.toString()));
+                sb = new StringBuilder();
+                
+                records.add(record);
+                stack.pop();
+                continue;
             }
-        });
-        
-        
+            // { 가 들어있다면
+            if (!stack.isEmpty()) {
+                //쉼표라면
+                if (s.charAt(i) == ',') {
+                    //쉼표 전까지의 sb를 record에 넣는다.
+                    record.add(Integer.parseInt(sb.toString()));
+                    // StringBuilder 초기화
+                    sb = new StringBuilder();
+                }
+                else {
+                    sb.append(s.charAt(i));
+                }
+            }
+            // System.out.println(records);
+        }
+
+        //문자열을 배열로 올바르게 만든 뒤 다시 정렬해주어야 한다. 사이즈로 정렬
+        records.sort((a, b) -> a.size() - b.size());
+        //정답 순서를 담을 리스트
         List<Integer> result = new ArrayList<>();
-        for (int i = 0; i < numbers.length; i++) {
-            if (i == 0) {
-                result.add(numbers[i].get(0));
-                continue;
-            }
-            List<Integer> integers = numbers[i];
-            integers.removeAll(result);
-            result.addAll(integers);
-        }
         
-        int[] answer = result.stream().mapToInt(Integer::intValue).toArray();
-        return answer;
-    }
-    
-    private void splitNumber(int index, String number) {
-        String[] strings = number.split(",");
-        for (String string : strings) {
-            numbers[index].add(Integer.valueOf(string));
+        //이중 포문을 돌면서
+        for (List<Integer> r : records) {
+            for (Integer i : r) {
+                //만약 정답 순서에 없다면 넣어준다.
+                if (!result.contains(i)) {
+                    result.add(i);
+                }
+            }
         }
+        // System.out.println(result);
+        int [] temp = result.stream().mapToInt(Integer::intValue).toArray();
+        int[] answer = temp;
+        return answer;
     }
 }
