@@ -2,70 +2,59 @@ import java.util.*;
 
 class Solution {
     
-    List<String>[] lists;
-    List<Set<String>> sets;
-    Set<String> currentSet;
+    int size;
+    boolean[] used;
+    
+    String[] user_id;
+    String[] banned_id;
+    
+    Set<String> output;
+    Set<Set<String>> set = new HashSet<>();
     
     public int solution(String[] user_id, String[] banned_id) {
         
-        lists = new List[banned_id.length];
-        sets = new ArrayList<>();
+        this.user_id = user_id;
+        this.banned_id = banned_id;
         
-        for (int i = 0; i < lists.length; i++) {
-            lists[i] = new ArrayList<>();
-        }
+        size = banned_id.length;
+        output = new HashSet<>();
+        // used = new boolean[user_id.length];
         
-        for (int i = 0; i < banned_id.length; i++) {
-            for (String user : user_id) {
-                if (banned_id[i].length() != user.length()) {//길이가 다르면
-                    continue;
-                }
-                
-                boolean flag = true;
-                for (int j = 0; j < banned_id[i].length(); j++) {
-                    if (banned_id[i].charAt(j) != user.charAt(j)) {
-                        if (banned_id[i].charAt(j) != '*') {
-                            flag = false;
-                            break;
-                        }
-                    }
-                }
-                if (flag) {
-                    lists[i].add(user);
-                }
-            }
-        }
-        
-        getResult(0);
-        System.out.println(sets.size());
-        
-        int answer = 0;
+        dfs(0);
+        int answer = set.size();
         return answer;
     }
     
-    private void getResult(int depth) {
-        if (depth == lists.length) {
-            
-            
-            for (Set<String> set : sets) {
-                if (!set.equals(currentSet)) {
-                    sets.add(currentSet);
+    private void dfs(int index) {
+        if (index == size) {
+            // System.out.println(output);
+            set.add(new HashSet<>(output));
+            return;
+        }
+        
+        String target = banned_id[index];
+        
+        for (int i = 0; i < user_id.length; i++) {
+            if (!output.contains(user_id[i]) && target.length() == user_id[i].length()) {
+                if (check(target, user_id[i])) {
+                    // used[i] = true;
+                    output.add(user_id[i]);
+                    dfs(index + 1);
+                    output.remove(user_id[i]);
+                    // used[i] = false;
                 }
             }
-            return;
         }
-
-        List<String> list = lists[depth];
-        for (int i = 0; i < list.size(); i++) {
-            if (depth == 0) {
-                currentSet = new HashSet<>();
+    }
+    
+    private boolean check(String target, String compare) {
+        for (int i = 0; i < target.length(); i++) {
+            if (target.charAt(i) == '*') continue;
+            
+            if (target.charAt(i) != compare.charAt(i)) {
+                return false;
             }
-            if (!currentSet.contains(list.get(i))) {
-                currentSet.add(list.get(i));
-                System.out.println(currentSet);
-                getResult(depth + 1);               
-            }
-            return;
         }
+        return true;
     }
 }
