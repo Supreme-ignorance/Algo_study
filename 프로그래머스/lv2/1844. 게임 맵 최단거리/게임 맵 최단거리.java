@@ -1,48 +1,48 @@
-import java.util.Queue;
-import java.util.ArrayDeque;
+import java.util.*;
 
 class Solution {
     
-    private int[] dr = {-1, 0, 1, 0};
-    private int[] dc = {0, -1, 0, 1};
-    private int[][] visited;
+    int[] dr = {-1, 0, 1, 0};
+    int[] dc = {0, -1, 0, 1};
     
     public int solution(int[][] maps) {
         
-        visited = new int[maps.length][maps[0].length];
-        bfs(0, 0, 1, maps);
-        int answer = visited[visited.length - 1][visited[0].length - 1];
-        return answer == 0 ? -1 : answer;
-    }
-    
-    private void bfs(int row, int col, int count, int[][] maps) {
-        Queue<Integer> rowQueue = new ArrayDeque<>();
-        Queue<Integer> colQueue = new ArrayDeque<>();
+        int ROW = maps.length;
+        int COL = maps[0].length;
         
-        rowQueue.offer(row);
-        colQueue.offer(col);
-        visited[row][col] = count;
+        //row, col, 이동 카운트
+        Queue<List<Integer>> pq = new PriorityQueue<>(Comparator.comparingInt(a -> a.get(2)));
+        pq.add(Arrays.asList(0, 0, 1));
+        // boolean[][] visited = new boolean[ROW][COL];
         
-        while (!rowQueue.isEmpty()) {
-            int size = rowQueue.size();
-            count++;
-            for (int i = 0; i < size; i++) {
-                int r = rowQueue.poll();
-                int c = colQueue.poll();
-                for (int d = 0; d < 4; d++) {
-                    int nextRow = r + dr[d];
-                    int nextCol = c + dc[d];
-                    if (0 <= nextRow && nextRow < maps.length && 
-                        0 <= nextCol && nextCol < maps[0].length) {
+        while (!pq.isEmpty()) {
+            List<Integer> cur = pq.poll();
+            int row = cur.get(0); 
+            int col = cur.get(1);
+            int count = cur.get(2);
+            
+            //최적의 해를 구했으므로 리턴
+            if (row == ROW - 1 && col == COL - 1) {
+                return count;
+            }
+            // visited[row][col] = true;
 
-                        if (maps[nextRow][nextCol] == 1 && visited[nextRow][nextCol] == 0) {
-                            rowQueue.offer(nextRow);
-                            colQueue.offer(nextCol);
-                            visited[nextRow][nextCol] = count;
-                        }
-                    }
+            for (int d = 0; d < 4; d++) {
+                int nextRow = row + dr[d];
+                int nextCol = col + dc[d];
+                
+                if (nextRow < 0 || ROW <= nextRow || nextCol < 0 || COL <= nextCol) {//맵 경계처리
+                    continue;
                 }
+                if (maps[nextRow][nextCol] != 0) {
+                    //이미 지나온 경로는 더 이상 거치지 않도록 0 설정
+                    maps[nextRow][nextCol] = 0;
+                    pq.add(Arrays.asList(nextRow, nextCol, count + 1));
+                }
+                
             }
         }
+        // pq의 모든 것이 빠져도 도착 못하면 갈 수 있는 방법이 없으므로 -1 반환
+        return -1; 
     }
 }
