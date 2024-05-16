@@ -43,14 +43,15 @@ public class Main {
                     count = 1;
                 }
 
-                if (sum >= K) {
-                    rightIdx--;
+                if (sum <= K) {
+                    leftIdx++;
+
                 }
                 else {
-                    leftIdx++;
+                    rightIdx--;
                 }
-//                else if (sum > K) {
-//                    rightIdx--;
+//                else if (sum < K) {
+//                  leftIdx++;
 //                }
 //                else { // 같다면
 //                    int leftAbsValue = Math.abs(numbers[leftIdx] - numbers[leftIdx + 1]);
