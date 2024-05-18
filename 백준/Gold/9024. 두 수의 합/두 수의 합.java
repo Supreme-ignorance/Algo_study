@@ -43,26 +43,17 @@ public class Main {
                     count = 1;
                 }
 
-                if (sum <= K) {
+                if (sum < K) {
                     leftIdx++;
 
                 }
-                else {
+                else if (sum > K) {
                     rightIdx--;
                 }
-//                else if (sum < K) {
-//                  leftIdx++;
-//                }
-//                else { // 같다면
-//                    int leftAbsValue = Math.abs(numbers[leftIdx] - numbers[leftIdx + 1]);
-//                    int rightAbsValue = Math.abs(numbers[rightIdx] - numbers[rightIdx - 1]);
-//                    if (leftAbsValue <= rightAbsValue) {
-//                        leftIdx++;
-//                    }
-//                    else {
-//                        rightIdx++;
-//                    }
-//                }
+                else {
+                    leftIdx++;
+                    rightIdx--;
+                }
             }
             sb.append(count).append("\n");
         }
