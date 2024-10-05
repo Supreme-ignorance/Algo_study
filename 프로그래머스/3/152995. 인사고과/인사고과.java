@@ -11,7 +11,7 @@ class Solution {
             pq.add(score);
             max = Math.max(max, score[0] + score[1]);
         }
-        System.out.println(max);
+        // System.out.println(max);
         
         int rank = 1;
         int equals = 0;
