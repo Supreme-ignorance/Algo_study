@@ -26,9 +26,9 @@ public class Main {
         while (!pq.isEmpty()) {
             Node cur = pq.poll();
 
-            // 이미 갱신되었으면 dist 제외
-            if (dist[cur.idx] < cur.time) continue;
-            
+//            // 이미 갱신되었으면 dist 제외
+//            if (dist[cur.idx] < cur.time) continue;
+
             if (cur.idx == K) {
                 break;
             }
