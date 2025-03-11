@@ -1,4 +1,3 @@
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
@@ -61,7 +60,7 @@ public class Main {
         outer:
         for (time = 1; time <= 1000; time++) {
 
-            for (int i = 0; i < markers.size(); i++) {
+            for (int i = 0; i < K; i++) {
                 Marker marker = markers.get(i);
                 int curRow = marker.row;
                 int curCol = marker.col;
