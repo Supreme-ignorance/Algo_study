@@ -4,9 +4,7 @@ import java.util.Scanner;
 
 public class Main {
 
-    static int N;
-    static int M;
-
+    static int N, M;
     static List<Integer> selected = new ArrayList<>();
 
     public static void main(String[] args) {
@@ -14,24 +12,24 @@ public class Main {
         N = kb.nextInt();
         M = kb.nextInt();
 
-        comb(0, 1);
+        recur(1, 0);
     }
 
-
-    static void comb(int cur, int start) {
-        if (cur == M) {
-            for (int i : selected) {
-                System.out.print(i + " ");
+    static void recur(int number, int total) {
+        if (number == N + 1) {
+            if (total == M) {
+                for (int i : selected) {
+                    System.out.print(i + " ");
+                }
+                System.out.println();
             }
-            System.out.println();
             return;
         }
 
-        for (int i = start; i <= N; i++) {
-            selected.add(i);
-            comb(cur + 1, i + 1);
-            selected.remove(selected.size() - 1);
-        }
-    }
+        selected.add(number);
+        recur(number + 1, total + 1);
+        selected.remove(selected.size() - 1);
+        recur(number + 1, total);
 
+    }
 }
