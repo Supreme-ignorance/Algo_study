@@ -18,24 +18,24 @@ public class Main {
             bitter[i] = kb.nextInt();
         }
 
-        recur(0, 1, 0, 0);
+        for (int i = 1; i <= N; i++) {
+            comb(0, 0, 1, 0, i);
+        }
+
         System.out.println(min);
 
     }
 
-    static void recur(int cur, int s, int b, int cnt) {
+    static void comb(int cur, int start, int s, int b, int limit) {
         // 기저조건
-        if (cur == N) {
-            if (cnt != 0) {
-                min = Math.min(min, Math.abs(s - b));
-            }
+        if (cur == limit) {
+            min = Math.min(min, Math.abs(s - b));
             return;
         }
 
-        // 현재 것 사용하기
-        recur(cur + 1, s * sour[cur], b + bitter[cur], cnt + 1);
-        // 현재 것 안 뽑기
-        recur(cur + 1, s, b, cnt);
+        for (int i = start; i < N; i++) {
+            comb(cur + 1, i + 1, s * sour[i], b + bitter[i], limit);
+        }
 
     }
 }
