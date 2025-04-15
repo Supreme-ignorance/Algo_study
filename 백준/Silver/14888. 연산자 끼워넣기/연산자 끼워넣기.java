@@ -1,3 +1,4 @@
+import java.util.Arrays;
 import java.util.Scanner;
 
 public class Main {
@@ -50,45 +51,43 @@ public class Main {
         for (int i = 0; i < line.length(); i++) {
             arr[i] = line.charAt(i) + "";
         }
-
-        recur(0);
+        
+        recur(0, numbers[0]);
         System.out.println(max);
         System.out.println(min);
     }
 
-    static void recur(int cur) {
+    static void recur(int cur, int result) {
         // 기저조건
         if (cur == limit) {
-            int sum = numbers[0];
-            for (int i = 0; i < limit; i++) {
-                if (selected[i].equals("+")) {
-                    sum += numbers[i + 1];
-                }
-                if (selected[i].equals("-")) {
-                    sum -= numbers[i + 1];
-                }
-                if (selected[i].equals("*")) {
-                    sum *= numbers[i + 1];
-                }
-                if (selected[i].equals("/")) {
-                    if (sum >= 0) {
-                        sum /= numbers[i + 1];
-                    }
-                    else {
-                        sum = -(Math.abs(sum) / numbers[i + 1]);
-                    }
-                }
-            }
-            max = Math.max(max, sum);
-            min = Math.min(min, sum);
+            max = Math.max(max, result);
+            min = Math.min(min, result);
             return;
         }
-
         for (int i = 0; i < limit; i++) {
             if (visited[i]) continue;
-            selected[cur] = arr[i];
+//            selected[cur] = arr[i];
+
+            int next = result;
+            if (arr[i].equals("+")) {
+                next += numbers[cur + 1];
+            }
+            if (arr[i].equals("-")) {
+                next -= numbers[cur + 1];
+            }
+            if (arr[i].equals("*")) {
+                next *= numbers[cur + 1];
+            }
+            if (arr[i].equals("/")) {
+                if (result < 0) {
+                    next = -(Math.abs(result) / numbers[cur + 1]);
+                }
+                else {
+                    next /= numbers[cur + 1];
+                }
+            }
             visited[i] = true;
-            recur(cur + 1);
+            recur(cur + 1, next);
             visited[i] = false;
         }
     }
