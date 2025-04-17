@@ -17,31 +17,30 @@ public class Main {
         }
         Arrays.sort(arr);
 
-        recur(0, "", 0, 0);
+        recur(0, 0,"", 0, 0);
     }
 
-    // 현재 것 선택, 선택 안함
-    static void recur(int cur, String seq, int jaum, int moum) {
-        if (cur == C) {
-            if (seq.length() == L && jaum >= 2 && moum >= 1) {
+    // cur == 현재 자리 수
+    static void recur(int cur, int start, String seq, int jaum, int moum) {
+        if (cur == L) {
+            if (jaum >= 2 && moum >= 1) {
                 System.out.println(seq);
             }
             return;
         }
 
-        int nextJaumCnt = jaum;
-        int nextMoumCnt = moum;
-        if (isMoum(arr[cur])) {
-            nextMoumCnt++;
-        }
-        else {
-            nextJaumCnt++;
+        for (int i = start; i < C; i++) {
+            int nextJaumCnt = jaum;
+            int nextMoumCnt = moum;
+            if (isMoum(arr[i])) {
+                nextMoumCnt++;
+            }
+            else {
+                nextJaumCnt++;
+            }
+            recur(cur + 1, i + 1, seq + arr[i], nextJaumCnt, nextMoumCnt);
         }
 
-        // 현재 것 선택 했을 때
-        recur(cur + 1, seq + arr[cur], nextJaumCnt, nextMoumCnt);
-        // 현재 것 선택 안했을 때
-        recur(cur + 1, seq, jaum, moum);
     }
 
     static boolean isMoum(char c) {
