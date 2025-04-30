@@ -1,9 +1,9 @@
-import java.util.Arrays;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.Scanner;
+import java.util.StringTokenizer;
 
-/**
- * O(M * N * N) 10_000 * 300 * 300
- */
 public class Main {
 
     static int N;
@@ -12,13 +12,14 @@ public class Main {
 
     static int[][][] prefixArr;
 
-    public static void main(String[] args) {
-        Scanner kb = new Scanner(System.in);
-        N = kb.nextInt();
+    public static void main(String[] args) throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        N = Integer.parseInt(br.readLine());
         grid = new int[N + 1][N + 1];
         for (int r = 1; r <= N; r++) {
+            StringTokenizer tokenizer = new StringTokenizer(br.readLine(), " ");
             for (int c = 1; c <= N; c++) {
-                grid[r][c] = kb.nextInt();
+                grid[r][c] = Integer.parseInt(tokenizer.nextToken());
             }
         }
 
@@ -47,12 +48,13 @@ public class Main {
 //        }
 
 
-        Q = kb.nextInt();
+        Q = Integer.parseInt(br.readLine());
         for (int q = 0; q < Q; q++) {
-            int r1 = kb.nextInt();
-            int c1 = kb.nextInt();
-            int r2 = kb.nextInt();
-            int c2 = kb.nextInt();
+            StringTokenizer tokenizer = new StringTokenizer(br.readLine(), " ");
+            int r1 = Integer.parseInt(tokenizer.nextToken());
+            int c1 = Integer.parseInt(tokenizer.nextToken());
+            int r2 = Integer.parseInt(tokenizer.nextToken());
+            int c2 = Integer.parseInt(tokenizer.nextToken());
 
             int[] current = prefixArr[r2][c2];
             int[] beforeRow = prefixArr[r1 - 1][c2];
