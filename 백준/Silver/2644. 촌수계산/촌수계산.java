@@ -40,6 +40,7 @@ public class Main {
         }
 
         for (int i = 1; i <= N; i++) {
+            if (count != -1) continue;
             if (visited[i]) continue;
             if (graph[curIdx][i] == 1) {
                 visited[i] = true;
