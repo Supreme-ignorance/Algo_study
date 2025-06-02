@@ -1,58 +1,50 @@
-import java.util.ArrayDeque;
-import java.util.Queue;
-import java.util.Scanner;
+import java.util.*;
 
 public class Main {
+    static final int MAX = 100_000;
 
     static int N;
     static int K;
-    static int LIMIT = 100_000;
-    static boolean[] visited;
+    static boolean[] visited = new boolean[MAX + 1];
+    static int[] dist = new int[MAX + 1];
 
     public static void main(String[] args) {
         Scanner kb = new Scanner(System.in);
         N = kb.nextInt();
         K = kb.nextInt();
 
-        if (N >= K) {
-            System.out.println(N - K);
-        }
-        else {
-            visited = new boolean[LIMIT + 1];
-            System.out.println(bfs());
+        Queue<Integer> q = new ArrayDeque<>();
+        q.add(N);
+        visited[N] = true;
+
+        while (!q.isEmpty()) {
+            int cur = q.poll();
+
+            if (cur == K) {
+                System.out.println(dist[cur]);
+                break;
+            }
+
+            if (inRange(cur + 1) && !visited[cur + 1]) {
+                q.add(cur + 1);
+                visited[cur + 1] = true;
+                dist[cur + 1] = dist[cur] + 1;
+             }
+            if (inRange(cur - 1) && !visited[cur - 1]) {
+                q.add(cur - 1);
+                visited[cur - 1] = true;
+                dist[cur - 1] = dist[cur] + 1;
+            }
+            if (inRange(cur * 2) && !visited[cur * 2]) {
+                q.add(cur * 2);
+                visited[cur * 2] = true;
+                dist[cur * 2] = dist[cur] + 1;
+            }
+
         }
     }
 
-    private static int bfs() {
-        Queue<Integer> queue = new ArrayDeque<>();
-        int count = 0;
-        queue.add(N);
-        visited[N] = true;
-
-        while(!queue.isEmpty()) {
-            int size = queue.size();
-            for (int i = 0; i < size; i++) {
-                int current = queue.poll();
-
-                if (current == K) {
-                    return count;
-                }
-
-                if (0 <= current - 1 && !visited[current - 1]) {
-                    queue.add(current - 1);
-                    visited[current - 1] = true;
-                }
-                if (current + 1 <= LIMIT && !visited[current + 1]) {
-                    queue.add(current + 1);
-                    visited[current + 1] = true;
-                }
-                if (current * 2 <= LIMIT && !visited[current * 2]) {
-                    queue.add(current * 2);
-                    visited[current * 2] = true;
-                }
-            }
-            count++;
-        }
-        return -1;
+    static boolean inRange(int i) {
+        return 0 <= i && i <= MAX;
     }
 }
