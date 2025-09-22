@@ -11,13 +11,12 @@ public class Main {
         A = kb.nextInt();
         B = kb.nextInt();
 
-        recur("4");
-        recur("7");
+        recur("0");
         System.out.println(cnt);
     }
 
     static void recur(String cur) {
-        if (A <= Long.parseLong(cur) && Long.parseLong(cur) <= B) {
+        if (A <= Long.parseLong(cur)) {
 //            System.out.println(cur);
             cnt++;
         }
