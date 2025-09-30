@@ -21,16 +21,18 @@ public class Main {
         int s = 0;
         int e = 0;
         int sum = 0;
-        while (s < N) {
-            while (e < N && sum < M) {
+        while (true) {
+            if (sum >= M) {
+                if (sum == M) ans++;
+                sum -= arr[s];
+                s++;
+            }
+            else {
+                if (e == N) break;
                 sum += arr[e];
                 e++;
             }
-            if (sum == M) ans++;
-            sum -= arr[s];
-            s++;
         }
-
         System.out.println(ans);
     }
 }
