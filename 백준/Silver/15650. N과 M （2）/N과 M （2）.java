@@ -1,35 +1,32 @@
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Scanner;
 
 public class Main {
 
-    static int N, M;
-    static List<Integer> selected = new ArrayList<>();
+    static int N;
+    static int M;
+    static int[] result;
 
     public static void main(String[] args) {
         Scanner kb = new Scanner(System.in);
         N = kb.nextInt();
         M = kb.nextInt();
+        result = new int[M];
 
-        recur(1, 0);
+        recur(0, 1);
     }
 
-    static void recur(int number, int total) {
-        if (number == N + 1) {
-            if (total == M) {
-                for (int i : selected) {
-                    System.out.print(i + " ");
-                }
-                System.out.println();
+    static void recur(int cnt, int start) {
+        if (cnt == M) {
+            for (int i = 0; i < M; i++) {
+                System.out.print(result[i] + " ");
             }
+            System.out.println();
             return;
         }
 
-        selected.add(number);
-        recur(number + 1, total + 1);
-        selected.remove(selected.size() - 1);
-        recur(number + 1, total);
-
+        for (int i = start; i <= N; i++) {
+            result[cnt] = i;
+            recur(cnt + 1, i + 1);
+        }
     }
 }

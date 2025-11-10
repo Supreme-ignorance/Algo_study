@@ -1,3 +1,5 @@
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 
 public class Main {
@@ -5,7 +7,7 @@ public class Main {
     static int N, L, R, X;
     static int[] arr;
 
-    static int total = 0;
+    static int count = 0;
 
     public static void main(String[] args) {
         Scanner kb = new Scanner(System.in);
@@ -18,25 +20,20 @@ public class Main {
         for (int i = 0; i < N; i++) {
             arr[i] = kb.nextInt();
         }
-        recur(0, 0, 0, Integer.MAX_VALUE, Integer.MIN_VALUE);
-        System.out.println(total);
+        recur(0, (int)1e9, (int)-1e9, 0, 0);
+
+        System.out.println(count);
     }
 
-    static void recur(int cur, int cnt, int sum, int min, int max) {
-        // 기저조건
-        if (cur == N) {
-            if (cnt >= 2) {
-                // L과 R 사이, 최댓값 최솟값의 차이가 X 이상
-                if (L <= sum && sum <= R && X <= max - min) {
-                    total++;
-                }
+    static void recur(int cnt, int min, int max, int sum, int c) {
+        if (cnt == N) {
+            if (c >= 2 && L <= sum && sum <= R && (max - min) >= X) {
+                count++;
             }
             return;
         }
 
-        // 현재 것 뽑기
-        recur(cur + 1, cnt + 1, sum + arr[cur], Math.min(min, arr[cur]), Math.max(max, arr[cur]));
-        // 현재 것 안 뽑기
-        recur(cur + 1, cnt, sum, min, max);
+        recur(cnt + 1, Math.min(min, arr[cnt]), Math.max(max, arr[cnt]), sum + arr[cnt], c + 1);
+        recur(cnt + 1, min, max, sum, c);
     }
 }
